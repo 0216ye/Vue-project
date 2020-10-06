@@ -5,13 +5,39 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title><%= htmlWebpackPlugin.options.title %></title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <title>外卖系统</title>
   </head>
   <body>
-    <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
     <div id="app"></div>
-    <!-- built files will be auto injected -->
+    <script>
+      /* 自己定义，还可以通过引用库
+      //控制rem
+      function remRefresh(){
+      //1获取屏幕的宽度
+      let clentw = document.documentElement.clientWidth
+      //2将宽度十等分
+      let rem= clentw/10
+      //3将宽度设置到更节点
+      document.documentElement.style.fontSize = rem +'px' 
+      //4设置body的字体大小,否则字体大小会跟根节点一样尺寸
+      document.body.style.fontSize = '16px'
+      }
+      //页面加载显示事件
+      window.addEventListener('pageshow',() => {
+        //页面显示时，调用该方法
+        remRefresh()
+      })
+      //页面宽度改变时-->使用了防抖
+      let times
+      window.addEventListener('resize',() => {
+      clearTimeout(times)
+       times = setTimeout(() => {
+        console.log('resize')
+        remRefresh()
+       },300)
+      })
+      */
+    </script>
   </body>
 </html>
