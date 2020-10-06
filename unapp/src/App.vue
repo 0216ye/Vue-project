@@ -14,8 +14,8 @@ export default {
 
 <style lang="stylus" rel='stylesheet/stylus'>
   .div
-    width 5rem
-    height 1rem
+    width 375px
+    height 10px
     background-color blue
   .p
     width 2rem
