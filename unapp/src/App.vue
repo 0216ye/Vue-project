@@ -1,24 +1,19 @@
 <template>
   <div>
-    <div class="div">你好</div>
-    <p class='p'>你好</p>
+    <router-view></router-view>
+    <FooterNav></FooterNav>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-
+import FooterNav from './components/FooterNav/FooterNav'
 export default {
-
+  components:{//注册组件
+    FooterNav
+  }
 }
 </script>
 
-<style lang="stylus" rel='stylesheet/stylus'>
-  .div
-    width 375px
-    height 10px
-    background-color blue
-  .p
-    width 2rem
-    height 1rem
-    background-color red 
+<style scoped lang="stylus" rel="stylesheet/stylus">
+ 
 </style>  
