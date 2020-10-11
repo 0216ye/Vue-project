@@ -1,9 +1,12 @@
 import Vue from "vue";
 //引入rem适配需要的库
-import 'lib-flexible/flexible'
+import 'lib-flexible/flexible';
 import App from "./App.vue";
-import router from './router/index'
+import router from './router/index';
+import Header from './components/Header/Header.vue'
 
+//全局注册组件
+Vue.component('Header',Header)
 Vue.config.productionTip = false;
 
 new Vue({

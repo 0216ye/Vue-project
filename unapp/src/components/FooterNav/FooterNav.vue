@@ -44,6 +44,7 @@
    bottom 0px
    left 0px
    text-align center
+   background-color #fff
    span
     margin-top 3px
    .nav-item
