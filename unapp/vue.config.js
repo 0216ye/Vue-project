@@ -32,10 +32,9 @@ module.exports = {
         quiet: true,//不做太多日志输出
         proxy: { //解决ajax跨域
             "/api": {
-                target: "http://localhost:3000",
+                target: "http://localhost:4000",
                 pathRewrite: { "^/api": "" }
-            }
+            },
         },
-        historyApiFallback: true//当使用 HTML5 History API 时，任意的 404 响应都可能需要被替代为 index.html
     }
 }

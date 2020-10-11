@@ -7,9 +7,14 @@
 
 <script type="text/ecmascript-6">
 import FooterNav from './components/FooterNav/FooterNav'
+import {reqAddress} from './api/index'
 export default {
   components:{//注册组件
     FooterNav
+  },
+  async mounted(){
+    //通知action异步获取address并保存到state中
+    this.$store.dispatch('getAddress')
   }
 }
 </script>

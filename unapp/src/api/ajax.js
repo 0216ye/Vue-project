@@ -9,6 +9,7 @@
 import axios from 'axios'
 import qs from 'qs'
 const myAxios = axios.create({
+    baseURL:'/api',//配置了代理服务器，以/api开头，会由代理服务器转发请求处理
     timeout:2000 //配置超时时间
 })
 
@@ -31,4 +32,4 @@ myAxios.interceptors.response.use(
         return new Promise(()=>{})
     }
 )
-export  myAxios
+export default myAxios

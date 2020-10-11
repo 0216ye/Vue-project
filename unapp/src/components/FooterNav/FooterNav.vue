@@ -25,8 +25,14 @@
     methods:{
       //用于显示icon图标高亮
       goto(path){
-        //编程式路由跳转
+        //当当前路径和请求的路径不一致时才跳转
+       if (path != this.$route.path){
+          //编程式路由跳转
         this.$router.replace(path)
+       }else {
+         //一致时，不跳转，但刷新当前页面
+         window.location = path  //发送一般的http请求-->整体刷新
+       }
       }
     }
   }
