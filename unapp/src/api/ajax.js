@@ -27,7 +27,7 @@ myAxios.interceptors.response.use(
         return response.data
     },
     error =>{
-        alert('错误',error.message)
+        alert(error.message)
         //统一处理请求异常-->中断Promise链
         return new Promise(()=>{})
     }
