@@ -43,7 +43,7 @@
  .footer-nav
    width 100%
    height 50px
-   top-border-1px(#666)
+   top-border-1px(#ccc)
    display flex
    justify-content space-between
    position fixed
