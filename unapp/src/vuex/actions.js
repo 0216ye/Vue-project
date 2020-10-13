@@ -21,13 +21,16 @@ export default {
         }
     },
      //2、获取食品分类列表的异步action
-    async getCategorys({commit}){
+    async getCategorys({commit},callback){
         //发送请求
         const result = await reqCategorys()
         if (result.code === 0 ){
             const categorys  = result.data
             //请求成功，提交到commit
-            commit(RECEIVE_CATEGORYS,categorys)
+            commit(RECEIVE_CATEGORYS,categorys)//commit是同步执行的
+            //到这里轮播所需的数据已经更新了
+            //当参数二为函数，才会调用
+            typeof callback === 'function' && callback()
         }
     },
       //3、获取食品分类列表的异步action

@@ -13,9 +13,9 @@
     <!--首页导航-->
     <nav class="msite_nav">
       <div class="swiper-container">
-        <div class="swiper-wrapper">
+        <div class="swiper-wrapper" v-if="categorys.length>0" >
           <!--遍历二维，在遍历一维数组-->
-          <div class="swiper-slide" v-for="(cs,index) in catagotysArr2" :key="index">
+          <div class="swiper-slide"  v-for="(cs,index) in catagotysArr2" :key="index">
             <a href="javascript:" class="link_to_food" v-for="(c,index) in cs" :key="index">
               <div class="food_container">
                 <img :src="'https://fuss10.elemecdn.com'+c.image_url" />
@@ -23,7 +23,9 @@
               <span>{{c.title}}</span>
             </a>
           </div>
-          
+        </div>
+        <div class="swiper-wrapper" v-else>
+           <img id = "loading-img" src="./images/msite_back.svg" alt="loading" />
         </div>
         <!-- 如果需要分页器 -->
        <div class="swiper-pagination"></div>
@@ -109,21 +111,34 @@ import chunk from 'lodash/chunk'
 import {mapState} from 'vuex'
 
 export default {
-  mounted(){
-    console.log(this.$store.state)
+  async mounted(){
     //将请求到的数据维护到store状态中
-    this.$store.dispatch('getCategorys')
     this.$store.dispatch('getShops')
-
-
-    //轮播图库，swiper对象必须要在轮播列表数据显示之后创建
-    new Swiper('.swiper-container',{
+     //解决swiper的方案二
+     /*
+    this.$store.dispatch('getCategorys',() =>{
+      // this.$nextTick(() => {
+      //  new Swiper('.swiper-container',{
+      //     loop: true, // 循环模式选项
+      //     // 如果需要分页器
+      //     pagination: {
+      //       el:'.swiper-pagination',
+      //     },
+      //   })
+      // })
+    })
+    */
+   //方案三:dispathc会返回一个Promise,而该Promise在数据更新且界面更新后才会为成功的状态，再通过await+async,即可在await this.$store.dispatch('getCategorys')，后直接创建swiper
+   await this.$store.dispatch('getCategorys')
+   new Swiper('.swiper-container',{
       loop: true, // 循环模式选项
       // 如果需要分页器
       pagination: {
         el:'.swiper-pagination',
       },
-    })
+   })
+
+    
   },
   computed:{
     //从state中读取状态数据，可以直接在组件中使用数组中的元素
@@ -159,10 +174,33 @@ export default {
     },
 
     /**
-     * 通过引入lodash库,实现将一个一维数组分成二维，-->参数二：将原本数组中n个元素弄成一个新数组
+     * 通过引入lodash库(import chunk from 'lodash/chunk'),chunk('数组',n)实现将一个一维数组分成二维，-->参数二：将原本数组中n个元素弄成一个新数组
      */
     catagotysArr2(){
       return chunk(this.categorys,8)
+    }
+  },
+  watch:{
+    /*
+    watch监视属性的流程:
+        一、更新数据
+        二、立即同步调用监视数据的回调函数
+        三、异步更新界面
+    */
+    // 对categorys进行监视
+    categorys(){
+      //轮播图库，swiper对象必须要在轮播列表数据显示之后创建
+       //解决swiper的方案1
+      //因为界面是异步更新的，而categorys的代码是同步执行的，数据还没显示好!(通过事件循环队列，加个setTimeout,达到界面更新后才创建),让swiper对象在界面更新后，才创建
+      // setTimeout(() => {
+      //   new Swiper('.swiper-container',{
+      //     loop: true, // 循环模式选项
+      //     // 如果需要分页器
+      //     pagination: {
+      //       el:'.swiper-pagination',
+      //     },
+      //   })
+      // },10)
     }
   }
 };
@@ -184,6 +222,9 @@ export default {
       .swiper-wrapper
         width 100%
         height 100%
+        #loading-img
+          width 100%
+          height 100% 
         .swiper-slide
           display flex
           justify-content center
