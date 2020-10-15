@@ -5,9 +5,12 @@
 import {
     RECEIVE_ADDRESS,
     RECEIVE_CATEGORYS,
-    RECEIVE_SHOPS
+    RECEIVE_SHOPS,
+    RECEIVE_USER,
+    RECEIVE_TOKEN
 } from './mutations-type' 
-import {reqAddress,reqCategorys,reqShops} from '../api/index'
+import {reqAddress,reqCategorys,reqShops,reqAutoLogin} from '../api/index'
+import { MessageBox } from 'mint-ui';
 export default {
     //1获取当前地址信息的异步action
     async getAddress({commit,state}){
@@ -44,4 +47,29 @@ export default {
             commit(RECEIVE_SHOPS,shops)
         }
     },
+
+    //4、保存用户信息
+    showUser ({commit},user){
+        const token = user.token
+        //将token保存到LocalStorage中
+        localStorage.setItem('token-key',token)
+
+        //将user和token保存到state中
+        commit(RECEIVE_USER,user)
+        commit(RECEIVE_TOKEN,token)
+    },
+
+    //5、自动登录-->token
+    async autoLogin ({commit,state}){
+        //必须要有token，而且user对象里面没有信息
+        if ( state.token && !state.user._id){
+            const result =  await reqAutoLogin()
+            if (result.code === 0){
+                //将没有token的user数据，保存到state中
+                const user = result.data
+                commit(RECEIVE_USER,user)
+            }
+            else MessageBox('',result.msg)
+        }
+    }
 }

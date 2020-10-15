@@ -74,6 +74,8 @@
 </template>
 
 <script type="text/ecmascript-6">
+import { Toast,MessageBox } from 'mint-ui';
+import {reqPhoneText,reqUSerPwd,reqPhoneVerify } from '../../api/index'
   export default {
     name: "Login",
     data(){
@@ -97,17 +99,26 @@
     },
     methods:{
       //取消获取验证码的from默认跳转
-      sendCode(){
+    async sendCode(){
         this.computeTime = 10
        //进入倒计时
-        const intervalId = setInterval(() => {
+        this.intervalId = setInterval(() => {
           //让计时剩余时间-1
           this.computeTime--
           if(this.computeTime === 0){
-            clearInterval(intervalId)
+            clearInterval(this.intervalId)
           }
         },1000)
        //发送请求
+      const result = await reqPhoneText(this.phone)
+      if ( result.code === 1 ){
+        //失败提示
+        Toast(result.msg)
+        //请求失败，清除倒计时
+        this.computeTime = 0
+        clearInterval(this.intervalId)
+      }
+      else MessageBox('提示','短信发送成功!') 
       },
 
       async login(){
@@ -120,8 +131,31 @@
         }
         //对所有表单项进行验证 
         const success = await this.$validator.validateAll(names)
+        let result 
+        //验证成功发送请求
         if (success){
-          alert('发送登录的请求')
+          const { isShowPwd,phone,code,name,pwd,captcha } = this
+          if ( isShowPwd){
+            //短信登录，发送手机号验证登录的API
+            result = await reqPhoneVerify({phone,code})
+          }else {
+            //密码登录，发送用户密码登录的API
+            result = await reqUSerPwd({name,pwd,captcha})
+            this.updateCaptcha()
+            this.captch = ''
+          }
+          //统一处理结果
+          if ( result.code === 0 ){
+            const user = result.data
+            //登录成功,保存用户信息
+            this.$store.dispatch('showUser',user)
+            //跳转到个人中心
+            this.$router.replace('/profile')
+          }else{
+            //登录失败
+            MessageBox('提示',result.msg)
+          }
+          
         }
       },
 
@@ -134,7 +168,6 @@
             this.flag = true
           },500)
         }
-       
       }
     }
   }

@@ -15,6 +15,7 @@ export default {
   async mounted(){
     //通知action异步获取address并保存到state中
     this.$store.dispatch('getAddress')
+    this.$store.dispatch('autoLogin')
   }
 }
 </script>

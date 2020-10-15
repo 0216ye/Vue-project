@@ -7,6 +7,7 @@
  * 5、通过请求体携带token参数
  */
 import axios from 'axios'
+import store from '../vuex/store'
 import qs from 'qs'
 import { Indicator } from 'mint-ui'
 const myAxios = axios.create({
@@ -22,6 +23,10 @@ myAxios.interceptors.request.use(config =>{
     if (data instanceof Object){
        config.data = qs.stringify(data)
     }
+    // 5、通过请求体携带token参数
+    const token = store.state.token
+    //如果有token，通过请求头携带
+    if ( token )  config.headers['Authorization']  = token
     return config
 })
 //响应拦截器
