@@ -12,11 +12,20 @@
         <form>
         <div :class="{on:isShowPwd}">
             <section class="login_message">
-            <input type="tel" maxlength="11" placeholder="手机号" v-model="phone">
-            <button :disabled="!isRightPhone" class="get_verification" :class="{right_phone_number:isRightPhone}" @click.prevent="btn()">获取验证码</button>
+            <input type="tel" maxlength="11" placeholder="手机号" 
+              v-model="phone" name='phone' v-validate="'required|mobile'">
+            <!--disabled用于禁用input，值为布尔总，ture则为禁用,当在倒计时时，禁用-->
+            <button :disabled="!isRightPhone || computeTime > 0" class="get_verification" 
+              :class="{right_phone_number:isRightPhone}" @click.prevent="sendCode">
+              {{computeTime>0 ? `短信已发送(${computeTime}s)` : '发送验证码'}}
+            </button>
+            <span style="color:red;" v-show="errors.has('phone')">{{errors.first('phone')}}</span>
             </section>
             <section class="login_verification">
-            <input type="tel" maxlength="8" placeholder="验证码">
+            <input type="text" maxlength="8" placeholder="验证码"
+              v-model="code" name = "code" v-validate="{required:true,regex:/^\d{6}$/}"
+            >
+             <span style="color:red;" v-show="errors.has('code')">{{errors.first('code')}}</span>
             </section>
             <section class="login_hint">
             温馨提示：未注册外卖帐号的手机号，登录时将自动注册，且代表已同意
@@ -26,27 +35,39 @@
         <div :class="{on:!isShowPwd}">
             <section>
             <section class="login_message">
-                <input type="tel" maxlength="11" placeholder="手机/邮箱/用户名">
+                <input type="text" maxlength="11" placeholder="用户名"
+                 v-model="name" name="name" v-validate="'required'"
+                >
+                 <span style="color:red;" v-show="errors.has('name')">{{errors.first('name')}}</span>
             </section>
             <section class="login_verification">
-                <input :type="isShowInputPwd ? 'text':'password'" maxlength="8" placeholder="密码">
+                <input :type="isShowInputPwd ? 'text':'password'" maxlength="8" placeholder="密码"
+                   v-model="pwd" name="pwd" v-validate="'required'"
+                >
+                 <span style="color:red;" v-show="errors.has('pwd')">{{errors.first('pwd')}}</span>
                 <div class="switch_button" :class="isShowInputPwd ?'on':'off'" @click="isShowInputPwd=!isShowInputPwd">
                 <div class="switch_circle" :class="{right:isShowInputPwd}"></div>
                 <span class="switch_text">{{isShowInputPwd ? '显示':'隐藏'}}</span>
                 </div>
             </section>
             <section class="login_message">
-                <input type="text" maxlength="11" placeholder="验证码">
-                <img class="get_verification" src="./images/captcha.svg" alt="captcha">
+                <input type="text" maxlength="11" placeholder="验证码"
+                   v-model="captcha" name="captcha" v-validate="{required:true,regex:/^[0-9a-zA-Z]{4}$/}"
+                >
+                <!--验证码-->
+                <img class="get_verification" src="http://localhost:4000/captcha" alt="captcha" 
+                  ref ="captcha"  @click="updateCaptcha" 
+                >
+                <span style="color:red;" v-show="errors.has('captcha')">{{errors.first('captcha')}}</span>
             </section>
             </section>
         </div>
-        <button class="login_submit">登录</button>
+        <button class="login_submit" @click.prevent="login">登录</button>
         </form>
         <a href="javascript:;" class="about_us">关于我们</a>
     </div>
-    <a href="javascript:" class="go_back">
-        <i class="iconfont iconjiantou" @click="$router.back()"></i>
+    <a href="javascript:" class="go_back" @click="$router.back()">
+        <i class="iconfont iconjiantou" ></i>
     </a>
     </div>
 </section>
@@ -57,9 +78,15 @@
     name: "Login",
     data(){
       return {
-        isShowPwd:true, //true：短信登录 ，false：密码登录
-        phone:'',
-        isShowInputPwd:false //判断是否显示密码: true不显示  false显示
+        isShowPwd:false, //true：短信登录 ，false：密码登录
+        isShowInputPwd:false, //判断是否显示密码: true不显示  false显示
+        phone:'',//手机号
+        code:'', //短信验证吗
+        name:'',//用户名
+        pwd:'',//密码
+        captcha:'',//图形验证码       
+        computeTime:0 ,//计时剩余时间
+        flag:true //用于验证码节流
       }
     },
     computed:{
@@ -70,8 +97,44 @@
     },
     methods:{
       //取消获取验证码的from默认跳转
-      btn(){
-        alert('---')
+      sendCode(){
+        this.computeTime = 10
+       //进入倒计时
+        const intervalId = setInterval(() => {
+          //让计时剩余时间-1
+          this.computeTime--
+          if(this.computeTime === 0){
+            clearInterval(intervalId)
+          }
+        },1000)
+       //发送请求
+      },
+
+      async login(){
+        //进行前台表单验证
+        let names
+        if (this.isShowPwd){
+          names = ['phone','code']
+        } else {
+          names = ['name','pwd','captcha']
+        }
+        //对所有表单项进行验证 
+        const success = await this.$validator.validateAll(names)
+        if (success){
+          alert('发送登录的请求')
+        }
+      },
+
+      //用于更新验证码的图片-->节流
+      updateCaptcha (){
+        if ( this.flag ){
+          this.flag = false
+          setTimeout(() => {
+            this.$refs.captcha.src = 'http://localhost:4000/captcha?time='+Date.now()
+            this.flag = true
+          },500)
+        }
+       
       }
     }
   }
@@ -81,6 +144,7 @@
     .loginContainer
       width 100%
       height 100%
+      overflow hidden
       background #fff
       .loginInner
         padding-top 60px

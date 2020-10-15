@@ -4,9 +4,13 @@ import 'lib-flexible/flexible';
 import App from "./App.vue";
 import router from './router/index';
 import Header from './components/Header/Header.vue'
+import Star from './components/Star/Star.vue'
 import store from './vuex/store'
+//引入手机号表单验证js文件
+import './validate.js'
 //全局注册组件
 Vue.component('Header',Header)
+Vue.component('Star',Star)
 Vue.config.productionTip = false;
 
 new Vue({
