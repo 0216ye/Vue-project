@@ -1,0 +1,11 @@
+{
+  "message": "你好 国际化 !!",
+  "footer_home":"首页",
+  "footer_search":"搜索",
+  "footer_order":"订单",
+  "footer_profile":"个人中心",
+  "login_login":"登录",
+  "login_about":"关于我们",
+  "note_login":"短信登录",
+  "password_login":"密码登录"
+}

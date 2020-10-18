@@ -29,8 +29,9 @@ myAxios.interceptors.request.use(config =>{
     //如果有token，通过请求头携带
     if ( token )  config.headers['Authorization']  = token
     else {
-        //获取needCheck，用于判断是否需要携带token，
+        //如果当前接口需要token，但没有token，进入错误流程
         const needCheck = config.headers.needCheck
+        //如果需要token，又没有token，则不能发送请求
         if ( needCheck ){
             // 在需要校验token的请求中，如果没有token，取消发送请求
             throw new Error('没有token，请求失败')

@@ -4,8 +4,8 @@
     <div class="login_header">
         <h2 class="login_logo">硅谷外卖</h2>
         <div class="login_header_title">
-        <a href="javascript:;" :class="{on:isShowPwd}" @click="isShowPwd =true">短信登录</a>
-        <a href="javascript:;" :class="{on:!isShowPwd}" @click="isShowPwd = false">密码登录</a>
+        <a href="javascript:;" :class="{on:isShowPwd}" @click="isShowPwd =true">{{$t('note_login')}}</a>
+        <a href="javascript:;" :class="{on:!isShowPwd}" @click="isShowPwd = false">{{$t('password_login')}}</a>
         </div>
     </div>
     <div class="login_content">
@@ -62,14 +62,15 @@
             </section>
             </section>
         </div>
-        <button class="login_submit" @click.prevent="login">登录</button>
+        <button class="login_submit" @click.prevent="login">{{$t('login_login')}}</button>
         </form>
-        <a href="javascript:;" class="about_us">关于我们</a>
+        <a href="javascript:;" class="about_us">{{$t('login_about')}}</a>
     </div>
     <a href="javascript:" class="go_back" @click="$router.replace('/profile')">
         <i class="iconfont iconjiantou" ></i>
     </a>
     </div>
+    <button id="target" @click="toggleLocale">切换为{{language === 'zh_CN' ? '英语' : '中文'}}</button>
 </section>
 </template>
 
@@ -88,7 +89,8 @@ import {reqPhoneText,reqUSerPwd,reqPhoneVerify } from '../../api/index'
         pwd:'',//密码
         captcha:'',//图形验证码       
         computeTime:0 ,//计时剩余时间
-        flag:true //用于验证码节流
+        flag:true, //用于验证码节流
+        language:'zh_CN' //切换语言的标志
       }
     },
     computed:{
@@ -168,6 +170,18 @@ import {reqPhoneText,reqUSerPwd,reqPhoneVerify } from '../../api/index'
             this.flag = true
           },500)
         }
+      },
+
+      //用于切换界面的语言
+      toggleLocale (){
+        //用于显示切换语言的按钮
+        this.language= this.language === 'zh_CN' ? 'en' : 'zh_CN'
+        //根据当前的locale确定新的locale
+        const locale =  this.$i18n.locale === 'en' ? 'zh_CN' : 'en'
+        //指定新的
+        this.$i18n.locale = locale
+        //保存到LocalStorage
+        localStorage.setItem('locale_key', locale)
       }
     }
   }
@@ -311,4 +325,18 @@ import {reqPhoneText,reqUSerPwd,reqPhoneVerify } from '../../api/index'
           >.iconjiantou
             font-size 18px
             color #999
+      #target
+          display block
+          width 25%
+          height 42px
+          margin 0 auto
+          margin-top 30px
+          border-radius 4px
+          background #80f09c
+          color #fff
+          text-align center
+          font-size 16px
+          line-height 42px
+          border 0
+
 </style>

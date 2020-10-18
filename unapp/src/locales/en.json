@@ -1,0 +1,11 @@
+{
+  "message": "hello i18n !!",
+  "footer_home":"Home",
+  "footer_search":"Search",
+  "footer_order":"Order",
+  "footer_profile":"Profile",
+  "login_login":"Enter",
+  "login_about":"About Us",
+  "note_login":"Note Login",
+  "password_login":"PassWord Login"
+}

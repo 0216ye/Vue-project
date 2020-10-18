@@ -31,3 +31,8 @@ export const reqPhoneVerify = ({phone,code}) => myAxios.post('login_sms',{phone,
 
 //7、自动登录
 export const reqAutoLogin = () => myAxios.get('/auto_login')
+
+//用于mock的ajax请求，在浏览器真正发送该请求时，会被mock拦截，并返回对应的接口数据
+myAxios('/info').then(resolve =>{
+    console.log(resolve)
+})

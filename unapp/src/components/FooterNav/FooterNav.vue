@@ -2,19 +2,19 @@
   <div class='footer-nav'>
       <span class="nav-item " :class="{on: $route.path === '/home'}" @click="goto('/home')"><!--动态class，对象是因为类名确定,-->
         <span ><i class="iconfont iconicon-waimai-copy"></i></span>
-        <span>首页</span>
+        <span>{{$t('footer_home')}}</span>
       </span>
        <span class="nav-item" :class="{on: $route.path === '/search'}" @click="goto('/search')">
         <span><i class="iconfont iconicon_search"></i></span>
-        <span>搜索</span>
+        <span>{{$t('footer_search')}}</span>
       </span>
        <span class="nav-item" :class="{on: $route.path === '/order'}" @click="goto('/order')">
         <span><i class="iconfont icondingdan"></i></span>
-        <span>订单</span>
+        <span>{{$t('footer_order')}}</span>
       </span>
        <span class="nav-item" :class="{on: $route.path === '/profile'}" @click="goto('/profile')">
         <span><i class="iconfont iconicon_geren"></i></span>
-        <span>用户</span>
+        <span>{{$t('footer_profile')}}</span>
       </span>
   </div>
 </template>
