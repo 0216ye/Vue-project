@@ -66,7 +66,7 @@
         </form>
         <a href="javascript:;" class="about_us">关于我们</a>
     </div>
-    <a href="javascript:" class="go_back" @click="$router.back()">
+    <a href="javascript:" class="go_back" @click="$router.replace('/profile')">
         <i class="iconfont iconjiantou" ></i>
     </a>
     </div>
@@ -80,7 +80,7 @@ import {reqPhoneText,reqUSerPwd,reqPhoneVerify } from '../../api/index'
     name: "Login",
     data(){
       return {
-        isShowPwd:false, //true：短信登录 ，false：密码登录
+        isShowPwd:true, //true：短信登录 ，false：密码登录
         isShowInputPwd:false, //判断是否显示密码: true不显示  false显示
         phone:'',//手机号
         code:'', //短信验证吗

@@ -7,9 +7,10 @@
  * 5、通过请求体携带token参数
  */
 import axios from 'axios'
-import store from '../vuex/store'
 import qs from 'qs'
-import { Indicator } from 'mint-ui'
+import { Indicator,Toast,MessageBox } from 'mint-ui'
+import store from '../vuex/store'
+import router from '../router/index'
 const myAxios = axios.create({
     baseURL:'/api',//配置了代理服务器，以/api开头，会由代理服务器转发请求处理
     timeout:2000 //配置超时时间
@@ -27,6 +28,15 @@ myAxios.interceptors.request.use(config =>{
     const token = store.state.token
     //如果有token，通过请求头携带
     if ( token )  config.headers['Authorization']  = token
+    else {
+        //获取needCheck，用于判断是否需要携带token，
+        const needCheck = config.headers.needCheck
+        if ( needCheck ){
+            // 在需要校验token的请求中，如果没有token，取消发送请求
+            throw new Error('没有token，请求失败')
+        }
+    }
+
     return config
 })
 //响应拦截器
@@ -40,7 +50,35 @@ myAxios.interceptors.response.use(
     error =>{
         //隐藏loading
         Indicator.close()
-        alert(error.message)
+        const response = error.response
+        //没有发送请求，error中没有response
+        if ( !response ) {
+            const path = router.currentRoute.path
+            if ( path !=='/login'){
+                router.replace('/login')
+                Toast(error.message)
+            }
+        }else {
+            //有发送请求，但请求失败
+            if ( response.status === 401){
+                const path = router.currentRoute.path
+                //验证token失败，清除LocalStorage和store的信息，跳转到登录页面
+                if ( path !=='/login'){
+                    console.log('--1')
+                    store.dispatch('loginOut')
+                    router.replace('/login')
+                    Toast(error.response.data.message || '登录信息失效，请重新登录')
+                }
+            }else if (response.status === 404){
+                //404提示
+                MessageBox('提示','请求资源不存在')
+            }else{
+                console.log('----')
+                MessageBox('提示', error.message)
+            }
+        }
+        
+       
         //统一处理请求异常-->中断Promise链
         return new Promise(()=>{})
     }

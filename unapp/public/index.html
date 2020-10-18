@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,16 +9,15 @@
   <link rel="stylesheet" href="./css/reset.css">
   <!--阿里巴巴字体图标库-->
   <link rel="stylesheet" href="http://at.alicdn.com/t/font_2120986_f1098sa2h6.css">
-  <script src="https://cdn.bootcdn.net/ajax/libs/fastclick/0.1.0/fastclick.min.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/fastclick/0.1.0/fastclick.js"></script>
   <script>
     if ('addEventListener' in document) {
-      document.addEventListener('DOMContentLoaded', function () {
-        FastClick.attach(document.body);
-      }, false);
-    }
+	document.addEventListener('DOMContentLoaded', function() {
+		FastClick.attach(document.body);
+	}, false);
+}
   </script>
 </head>
-
 <body>
   <div id="app"></div>
   <script>

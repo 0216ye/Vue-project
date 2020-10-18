@@ -7,7 +7,9 @@ import {
     RECEIVE_CATEGORYS,
     RECEIVE_SHOPS,
     RECEIVE_USER,
-    RECEIVE_TOKEN
+    RECEIVE_TOKEN,
+    RESET_USER,
+    RESET_TOKEN
 } from './mutations-type' 
 import {reqAddress,reqCategorys,reqShops,reqAutoLogin} from '../api/index'
 import { MessageBox } from 'mint-ui';
@@ -71,5 +73,11 @@ export default {
             }
             else MessageBox('',result.msg)
         }
+    },
+    //6、清除用户信息和LocalStorage保存的token
+    loginOut ({commit}){
+        localStorage.removeItem('token-key')
+        commit(RESET_USER)
+        commit(RESET_TOKEN)
     }
 }

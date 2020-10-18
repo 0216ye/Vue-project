@@ -6,10 +6,19 @@ import myAxios from './ajax'
 export const reqAddress = (longitude,latitude) => myAxios.get(`/position/${latitude},${longitude}`)
 
 //2、获取食品分类列表
-export const reqCategorys = () => myAxios('/index_category')
+export const reqCategorys = () => myAxios.get('/index_category',{
+    headers:{
+        needCheck:true
+    }
+})
 
 // 3、根据经纬度获取商铺列表
-export const reqShops = ({latitude,longitude }) => myAxios.get('/shops',{params:{latitude,longitude}})
+export const reqShops = ({latitude,longitude }) => myAxios.get('/shops',{
+    params:{latitude,longitude},
+    headers:{
+        needCheck:true
+    }
+})
 
 //4、发送短信验证码
 export const reqPhoneText = (phone) => myAxios.get(`/sendcode?phone=${phone}`)

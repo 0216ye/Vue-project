@@ -1,6 +1,8 @@
 import Vue from "vue";
 //引入rem适配需要的库
 import 'lib-flexible/flexible';
+import {Button} from 'mint-ui'
+import  FastClick  from  'fastclick'
 import App from "./App.vue";
 import router from './router/index';
 import Header from './components/Header/Header.vue'
@@ -11,8 +13,9 @@ import './validate.js'
 //全局注册组件
 Vue.component('Header',Header)
 Vue.component('Star',Star)
+Vue.component(Button.name,Button) //mt-button组件名
 Vue.config.productionTip = false;
-
+FastClick.attach(document.body);
 new Vue({
   render: h => h(App),
   router, //注册路由器,任意组件都可以课件$router和 route
