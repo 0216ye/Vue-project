@@ -22,6 +22,11 @@ import ShopHeader from '../../components/ShopHeader/ShopHeader'
       name:'Shop',
       components:{
           ShopHeader
+      },
+      mounted(){
+        this.$store.dispatch('showGoods')
+        this.$store.dispatch('showRatings')
+        this.$store.dispatch('showInfo')
       }
   }
 </script>

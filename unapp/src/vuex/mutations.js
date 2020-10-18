@@ -9,7 +9,10 @@ import {
     RECEIVE_USER,
     RECEIVE_TOKEN,
     RESET_USER,
-    RESET_TOKEN
+    RESET_TOKEN,
+    RECEIVE_GOODS,
+    RECEIVE_INFO,
+    RECEIVE_RATINGS
 } from './mutations-type' 
 export default {
     [RECEIVE_ADDRESS](state,address){
@@ -33,5 +36,14 @@ export default {
     },
     [RESET_TOKEN](state){
         state.token = ''
+    },
+    [RECEIVE_GOODS](state,goods){
+        state.goods = goods
+    },
+    [RECEIVE_INFO](state,info){
+        state.info = info
+    },
+    [RECEIVE_RATINGS](state,ratings){
+        state.ratings = ratings
     }
 }

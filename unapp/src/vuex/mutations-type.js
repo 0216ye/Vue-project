@@ -8,3 +8,6 @@ export const RECEIVE_USER = 'receive_user' //保存用户信息
 export const RECEIVE_TOKEN = 'receive_token' //保存用户信息校验的token
 export const RESET_USER = 'reset_user' //保存用户信息校验的token
 export const RESET_TOKEN = 'reset_token' //保存用户信息校验的token
+export const RECEIVE_GOODS = 'receive_goods'//保存着食物的数组
+export const RECEIVE_INFO = 'receive_info'// 保存着评价的数组
+export const RECEIVE_RATINGS = 'receive_ratings' //保存着商家的信息

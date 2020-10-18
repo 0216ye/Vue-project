@@ -9,4 +9,7 @@ export default {
     shops: [], // 商 家 数 组
     user:{},//保存着用户的信息
     token: localStorage.getItem('token-key') || '' ,//用于校验用户信息的唯一标记
+    goods:[],//保存着食物的数组
+    ratings:[],//保存着对应食物的评价
+    info:{},//保存着商家的信息
 }

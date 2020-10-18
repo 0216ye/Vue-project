@@ -9,9 +9,12 @@ import {
     RECEIVE_USER,
     RECEIVE_TOKEN,
     RESET_USER,
-    RESET_TOKEN
+    RESET_TOKEN,
+    RECEIVE_GOODS,
+    RECEIVE_INFO,
+    RECEIVE_RATINGS
 } from './mutations-type' 
-import {reqAddress,reqCategorys,reqShops,reqAutoLogin} from '../api/index'
+import {reqAddress,reqCategorys,reqShops,reqAutoLogin,reqGoods,reqInfo,reqRatings} from '../api/index'
 import { MessageBox } from 'mint-ui';
 export default {
     //1获取当前地址信息的异步action
@@ -79,5 +82,36 @@ export default {
         localStorage.removeItem('token-key')
         commit(RESET_USER)
         commit(RESET_TOKEN)
+    },
+    //7、保存食物数据的action
+    async showGoods ({commit},cb){
+      const result = await reqGoods()
+      if (result.code === 0){
+          const goods = result.data
+          console.log(goods)
+          commit(RECEIVE_GOODS,goods)
+          //如果组件中传递了接收消息的回调，数据更新后，调用回调函数通知调用的组件
+          typeof cb === 'function' && cb()
+      }
+    },
+    //8、保存食物评价的数据的action
+    async showRatings ({commit},cb){
+        const result = await reqRatings()
+        if (result.code === 0){
+            const ratings = result.data
+            console.log(ratings)
+            commit(RECEIVE_RATINGS,ratings)
+            typeof cb === 'function' && cb()
+        }
+    },
+    //9、保存商家信息
+    async showInfo ({commit},cb){
+        const result = await reqInfo()
+        if (result.code === 0){
+            const Info = result.data
+            console.log(Info)
+            commit(RECEIVE_INFO,Info)
+            typeof cb === 'function' && cb()
+        }
     }
 }
