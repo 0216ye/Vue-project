@@ -88,7 +88,6 @@ export default {
       const result = await reqGoods()
       if (result.code === 0){
           const goods = result.data
-          console.log(goods)
           commit(RECEIVE_GOODS,goods)
           //如果组件中传递了接收消息的回调，数据更新后，调用回调函数通知调用的组件
           typeof cb === 'function' && cb()
@@ -99,7 +98,6 @@ export default {
         const result = await reqRatings()
         if (result.code === 0){
             const ratings = result.data
-            console.log(ratings)
             commit(RECEIVE_RATINGS,ratings)
             typeof cb === 'function' && cb()
         }
@@ -109,7 +107,6 @@ export default {
         const result = await reqInfo()
         if (result.code === 0){
             const Info = result.data
-            console.log(Info)
             commit(RECEIVE_INFO,Info)
             typeof cb === 'function' && cb()
         }

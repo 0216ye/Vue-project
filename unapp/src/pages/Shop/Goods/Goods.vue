@@ -12,7 +12,7 @@
         </ul>
       </div>
       <div class="foods-wrapper" ref="foodsWrapper">
-        <ul ref="right-ui">
+        <ul ref="rightUi">
           <li class="food-list-hook" v-for="(good,index) in goods" :key="index">
             <h1 class="title">{{good.name}}</h1>
             <ul>
@@ -60,31 +60,51 @@
       ...mapState(['goods']),
       currentIndex(){
         const {scrollY,tops} = this
-        //findIndex条件满足时返回值为布尔值,
+        //findIndex条件满足时返回其索引
         return tops.findIndex((top,index) =>  scrollY >= top && scrollY < tops[index+1])
       }
     },
     methods:{
      initScroll(){
+       //左侧的scroll滑动对象
        new BScroll(this.$refs.menuWrapper,{})
-       const rightScroll = new BScroll(this.$refs.foodsWrapper,{})
+       //右侧的scroll滑动对象
+       const rightScroll = new BScroll(this.$refs.foodsWrapper,{
+         probeType:1 // probeType 为 1 的时候，会非实时（屏幕滑动超过一定时间后）派发scroll 事件
+       })
+
+       //给右侧的scroll对象绑定监听函数
+       rightScroll.on('scroll',({x,y}) => {
+         console.log('scroll',x,y)
+         //将获取到的Y轴的值取绝对值后赋给scrollY
+         this.scrollY = Math.abs(y)
+       })
+
+       rightScroll.on('scrollEnd',({x,y}) => {
+         console.log('scroll',x,y)
+         this.scrollY = Math.abs(y)
+       })
      },
-     //统计右侧所有分类li的top数组
+     //统计右侧所有分类li的高度组成的tops数组
      initTops(){
       const tops = [] 
-
-      const lis = Array.from(this.$refs.right-ui.children)
-      
+      //tops第一个值必定为0
+      let top = 0
+      tops.push(top)
+      //获取ul下每个li，并将获取到的伪数组转为真数组
+      const lis = Array.from(this.$refs.rightUi.children)
       lis.forEach(li =>{
-        
+        //累加每个li的高度,并添加到tops中
+        top+=li.clientHeight
+        tops.push(top)
       })
       this.tops = tops
      }
-
     },
     watch:{
       goods(){ //goods数据有了
         this.$nextTick(() => {//列表数据显示了，再进行滑动效果
+          this.initTops()
           this.initScroll()
         })
 
