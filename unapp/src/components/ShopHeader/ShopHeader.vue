@@ -4,10 +4,7 @@
       <a class="back"> <i class="iconfont iconleft"></i> </a>
     </nav>
     <div class="shop-content">
-      <img
-        class="content-image"
-        :src="info.avatar"
-      />
+      <img class="content-image" :src="info.avatar"/>
       <div class="header-content" @click="isShowBulletin=true">
         <h2 class="content-title">
           <span class="content-tag">
@@ -23,6 +20,7 @@
           </span>
           <span class="shop-message-detail">距离 {{info.distance}}</span>
         </div>
+        <p class="shop-notice">{{info.bulletin}}</p>
       </div>
     </div>
 
