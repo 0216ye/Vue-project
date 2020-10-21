@@ -8,6 +8,7 @@ import router from './router/index';
 import Header from './components/Header/Header.vue'
 import Star from './components/Star/Star.vue'
 import store from './vuex/store'
+import CartControl from './components/CartControl/CartControl.vue'
 import './mock/mock-serve'
 //引入手机号表单验证js文件
 import './validate.js'
@@ -16,6 +17,7 @@ import i18n from './i18n'
 //全局注册组件
 Vue.component('Header',Header)
 Vue.component('Star',Star)
+Vue.component('CartControl',CartControl)
 Vue.component(Button.name,Button) //mt-button组件名
 Vue.config.productionTip = false;
 FastClick.attach(document.body);

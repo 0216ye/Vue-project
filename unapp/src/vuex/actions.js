@@ -12,7 +12,9 @@ import {
     RESET_TOKEN,
     RECEIVE_GOODS,
     RECEIVE_INFO,
-    RECEIVE_RATINGS
+    RECEIVE_RATINGS,
+    ADD_FOOD_COUNT,
+    REDUCE_FOOD_COUNT
 } from './mutations-type' 
 import {reqAddress,reqCategorys,reqShops,reqAutoLogin,reqGoods,reqInfo,reqRatings} from '../api/index'
 import { MessageBox } from 'mint-ui';
@@ -109,6 +111,16 @@ export default {
             const Info = result.data
             commit(RECEIVE_INFO,Info)
             typeof cb === 'function' && cb()
+        }
+    },
+    //更新food中的count值，
+    updateFoodCount ({commit},{isAdd,food}) {
+        if ( isAdd ){
+            //是添加的按钮
+            commit(ADD_FOOD_COUNT,food)
+        }else{
+            //删除的按钮
+            commit(REDUCE_FOOD_COUNT,food)
         }
     }
 }

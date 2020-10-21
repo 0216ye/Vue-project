@@ -2,8 +2,11 @@
   <div>
     <div class="goods">
       <div class="menu-wrapper" ref="menuWrapper">
-        <ul>
-          <li class="menu-item " v-for="(good,index) in goods" :key="index" :class="{current:currentIndex === index}">
+        <ul ref="leftUi">
+          <li class="menu-item "
+            @click="currenItem(index)"
+            v-for="(good,index) in goods" :key="index" 
+            :class="{current:currentIndex === index}">
             <span class="text bottom-border-1px">
               <img  class="icon" v-if="good.icon" :src="good.icon"/>
               {{good.name}}
@@ -31,7 +34,9 @@
                     <span class="now">￥{{food.price}}</span>
                     <span class="old" v-if="food.oldPrice">￥{{food.oldPrice}}</span>
                     </div>
-                  <div class="cartcontrol-wrapper">CartControl</div>
+                  <div class="cartcontrol-wrapper">
+                    <CartControl :food ="food"/>
+                  </div>
                 </div>
               </li>
             </ul>
@@ -61,32 +66,44 @@
       currentIndex(){
         const {scrollY,tops} = this
         //findIndex条件满足时返回其索引
-        return tops.findIndex((top,index) =>  scrollY >= top && scrollY < tops[index+1])
+        const index = tops.findIndex((top,index) =>  scrollY >= top && scrollY < tops[index+1])
+        //当滑动右侧的列表时，左侧列表始终可见-->通过比较旧的index跟新的是否一致
+        if ( index !== this.index && this.leftScroll) {
+          //将新的index保存起来
+          this.index = index
+          //通过ref和children指定索引获取li
+          const li = this.$refs.leftUi.children[index]
+          //scrollToElement:滚动到指定的目标元素。
+          this.leftScroll.scrollToElement(li,300,)
+        }
+        
+        return index
       }
     },
     methods:{
-     initScroll(){
+      //初始化better-scorll对象
+      _initScroll(){
        //左侧的scroll滑动对象
-       new BScroll(this.$refs.menuWrapper,{})
+       this.leftScroll = new BScroll(this.$refs.menuWrapper,{})
        //右侧的scroll滑动对象
-       const rightScroll = new BScroll(this.$refs.foodsWrapper,{
+       this.rightScroll = new BScroll(this.$refs.foodsWrapper,{
          probeType:1 // probeType 为 1 的时候，会非实时（屏幕滑动超过一定时间后）派发scroll 事件
        })
 
        //给右侧的scroll对象绑定监听函数
-       rightScroll.on('scroll',({x,y}) => {
+       this.rightScroll.on('scroll',({x,y}) => {
          console.log('scroll',x,y)
          //将获取到的Y轴的值取绝对值后赋给scrollY
          this.scrollY = Math.abs(y)
        })
 
-       rightScroll.on('scrollEnd',({x,y}) => {
+       this.rightScroll.on('scrollEnd',({x,y}) => {
          console.log('scroll',x,y)
          this.scrollY = Math.abs(y)
        })
      },
      //统计右侧所有分类li的高度组成的tops数组
-     initTops(){
+      _initTops(){
       const tops = [] 
       //tops第一个值必定为0
       let top = 0
@@ -99,13 +116,24 @@
         tops.push(top)
       })
       this.tops = tops
-     }
+     },
+      //用于给左侧每个li绑定监听，选中左侧某个li时，右侧列表自动滑动
+      currenItem (index){
+        //获取右侧对应li距离的top值--->tops中保存的值是右侧每个li的top临界值
+        const top = this.tops[index]
+        //立即更新scroll-->currentIndex是根据它进行计算的,不然会有延迟
+        this.scrollY = top
+        //让右侧列表自动滚动到对应top的地方 -->scrollTo（x，y,time）
+        this.rightScroll.scrollTo(0,-top,300)
+
+      }
+    
     },
     watch:{
       goods(){ //goods数据有了
         this.$nextTick(() => {//列表数据显示了，再进行滑动效果
-          this.initTops()
-          this.initScroll()
+          this._initTops()
+          this._initScroll()
         })
 
       }

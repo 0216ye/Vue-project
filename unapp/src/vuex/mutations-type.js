@@ -11,3 +11,5 @@ export const RESET_TOKEN = 'reset_token' //保存用户信息校验的token
 export const RECEIVE_GOODS = 'receive_goods'//保存着食物的数组
 export const RECEIVE_INFO = 'receive_info'// 保存着评价的数组
 export const RECEIVE_RATINGS = 'receive_ratings' //保存着商家的信息
+export const ADD_FOOD_COUNT = 'add_food_count' //CareControl组件添加的按钮
+export const REDUCE_FOOD_COUNT = 'reduce_food_count' //CareControl组件删除的按钮
