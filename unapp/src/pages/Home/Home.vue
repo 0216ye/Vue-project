@@ -136,8 +136,12 @@ export default {
     
   },
   computed:{
-    //从state中读取状态数据，可以直接在组件中使用数组中的元素
-    ...mapState(['address','categorys','shops']),
+    //从state中读取状态数据，可以直接在组件中使用数组中的元素 ['address','categorys','shops']
+    ...mapState({
+      address : state => state.home.address,
+      categorys : state => state.home.categorys,
+      shops : state => state.home.shops,
+    }),
 
     /**
      * 要求：将一个一维数组分成一个二维数组

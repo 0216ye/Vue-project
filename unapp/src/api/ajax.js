@@ -25,7 +25,7 @@ myAxios.interceptors.request.use(config =>{
        config.data = qs.stringify(data)
     }
     // 5、通过请求体携带token参数
-    const token = store.state.token
+    const token = store.state.user.token
     //如果有token，通过请求头携带
     if ( token )  config.headers['Authorization']  = token
     else {
@@ -37,7 +37,6 @@ myAxios.interceptors.request.use(config =>{
             throw new Error('没有token，请求失败')
         }
     }
-
     return config
 })
 //响应拦截器

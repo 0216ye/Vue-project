@@ -1,14 +1,15 @@
 <template>
     <div class="cartcontrol">
         <transition name="move">
-        <div class="iconfont iconiconremovecircleoutline" v-if="food.count > 0" @click="updateFoodCount(false)"></div>
+        <div class="iconfont iconiconremovecircleoutline" v-if="food.count > 0" @click.stop="updateFoodCount(false)"></div>
         </transition>
         <div class="cart-count" v-if="food.count > 0 ">{{food.count}}</div>
-        <div class="iconfont iconicon-addcircle-line" @click="updateFoodCount(true)"></div>
+        <div class="iconfont iconicon-addcircle-line" @click.stop="updateFoodCount(true)"></div>
     </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import throttle from 'lodash/throttle'
   export default {
       name:'CartControl',
       props:{
@@ -16,14 +17,14 @@
           food:Object
       },
       methods:{
-        updateFoodCount ( isAdd ){
+        //使用了lodash的throttle方法进行了节流
+        updateFoodCount:throttle(function( isAdd ){
             //1。当前组件不是food所在的组件-->数据在哪里就在那里更新
             //2。count开始值是undefined
             //通过vuex更新food中的count值
             this.$store.dispatch('updateFoodCount',{isAdd,food:this.food})
-        }
+        },800)
       }
-      
   }
 </script>
 

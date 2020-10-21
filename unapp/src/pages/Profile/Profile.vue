@@ -100,7 +100,9 @@ import { MessageBox } from "mint-ui";
   export default {
     name:'Profile',
     computed:{
-      ...mapState(['user'])
+      ...mapState({
+        user: state => state.user.user,
+      })
     },
     methods:{
       logOut(){

@@ -3,6 +3,8 @@ import Vue from "vue";
 import 'lib-flexible/flexible';
 import {Button} from 'mint-ui'
 import  FastClick  from  'fastclick'
+//引入图片懒加载的插件
+import VueLazyload from 'vue-lazyload'
 import App from "./App.vue";
 import router from './router/index';
 import Header from './components/Header/Header.vue'
@@ -12,8 +14,14 @@ import CartControl from './components/CartControl/CartControl.vue'
 import './mock/mock-serve'
 //引入手机号表单验证js文件
 import './validate.js'
-
+//引入用于国际化的文件
 import i18n from './i18n'
+
+import loading from './common/images/loading.gif'
+//声明使用懒加载的插件,会得到一个全局指令:lazy,并指定其图片,
+Vue.use(VueLazyload, {
+  loading
+})
 //全局注册组件
 Vue.component('Header',Header)
 Vue.component('Star',Star)

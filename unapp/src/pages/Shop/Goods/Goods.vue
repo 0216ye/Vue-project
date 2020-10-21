@@ -19,7 +19,11 @@
           <li class="food-list-hook" v-for="(good,index) in goods" :key="index">
             <h1 class="title">{{good.name}}</h1>
             <ul>
-              <li class="food-item bottom-border-1px" v-for="(food,index) in good.foods" :key="index">
+              <li class="food-item bottom-border-1px" 
+                v-for="(food,index) in good.foods" 
+                :key="index"
+                @click="showFood(food)"
+              >
                 <div class="icon">
                   <img width="57" height="57"  :src="food.icon"/>
                 </div>
@@ -44,10 +48,13 @@
         </ul>
       </div>
     </div>
+    <!--标签对象就是组件对象-->
+    <Food :food="food" ref="food"/>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import Food from '../../../components/Food/Food.vue'
   import {mapState} from 'vuex'
   //引入用于滑动的库
   import BScroll from '@better-scroll/core'
@@ -58,11 +65,14 @@
         //用于计算右侧滑动的Y轴坐标 不断改变的
         scrollY:0,
         //用于保存右侧每个li距离顶部的top值 ：第一次列表数据显示后，统计完成不再更改
-        tops:[]
+        tops:[],
+        food:{} //用于保存每个食物li的弹出页面的信息
       }
     },
-    computed:{
-      ...mapState(['goods']),
+    computed:{ 
+      ...mapState({
+        goods: state => state.shop.goods,
+      }),
       currentIndex(){
         const {scrollY,tops} = this
         //findIndex条件满足时返回其索引
@@ -125,7 +135,13 @@
         this.scrollY = top
         //让右侧列表自动滚动到对应top的地方 -->scrollTo（x，y,time）
         this.rightScroll.scrollTo(0,-top,300)
+      },
 
+      //用于将点击时对应的li的food保存到data数据中，同props传递给Food组件使用
+      showFood (food) {
+        this.food = food
+        //通过ref获取到标签对象(也是组件对象),调用他的方法
+        this.$refs.food.toggleShow()
       }
     
     },
@@ -137,6 +153,9 @@
         })
 
       }
+    },
+    components:{
+      Food
     }
   }
 </script>

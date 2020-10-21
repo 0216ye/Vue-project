@@ -108,7 +108,9 @@ export default {
     }
   },
   computed:{
-    ...mapState(['info'])
+    ...mapState({
+      info: state => state.shop.info
+    })
   },
 };
 </script>
@@ -413,7 +415,7 @@ export default {
       z-index 99
       &.move-enter-active, &.move-leave-active
         transition opacity 1s
-      &.move-enter-active, &.move-leave-active
+      &.move-enter, &.move-leave-to
         opacity 0
       .activity-sheet-content
         position absolute

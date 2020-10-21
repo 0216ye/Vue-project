@@ -3,17 +3,31 @@
  */
 import Vue from 'vue'
 import Vuex from 'vuex'
-import state from './state.js'
 import mutations from './mutations.js'
 import actions from './actions.js'
 import getters from './getters.js'
+import home from './moduls/home'
+import user from './moduls/user'
+import shop from './moduls/shop'
 
 //声明使用的vuex插件
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-    state,
     mutations,
     actions,
-    getters
+    getters,
+    //vuex多模块化编程
+    modules:{
+        home,
+        user,
+        shop
+    }
+    /*
+    总的state数据对象是：{
+        home:{latitude:zzz,xx:yyy ....},
+        user:{},
+        shop:{}
+    }
+    */
 })
