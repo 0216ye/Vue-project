@@ -15,6 +15,7 @@ export default {
         goods:[],//保存着食物的数组
         ratings:[],//保存着对应食物的评价
         info:{},//保存着商家的信息
+        cartFoods:[]//保存着已经添加到购物车的food食物的数组(count不为0)
     },
     mutations: {  
         [RECEIVE_GOODS](state,goods){
@@ -34,11 +35,17 @@ export default {
                 // 问题：vue中如果给一个响应式对象添加一个新的属性，没有数据绑定效果(不是响应式，数据改变，页面没有更新)
                 // 解决：给响应式对象添加一个响应式的属性
                 Vue.set(food,'count',1)
+                //count数量从0到1,则添加到保存点餐的食物food数组中
+                state.cartFoods.push(food)
             }
         },
         [REDUCE_FOOD_COUNT](state,food){
             if (food.count > 0 ){
                 food.count--
+                //如果购物车中food被点餐的数量=0，从保存购物车点餐的食物food数组中删除
+                if ( food.count === 0 ) {
+                    state.cartFoods.splice(state.cartFoods.indexOf(food),1)
+                }
             }
         }
     },
@@ -83,6 +90,29 @@ export default {
         }
     },
     getters: { 
-
+        //初始化显示时会触发getter
+        // 依赖的数据更新时，也会触发getter
+        /*
+        cartFood ( state ){
+            const arr = []
+            state.goods.forEach( good => {
+                good.foods.forEach(food =>{
+                    if ( food.count > 0 ){
+                        //将数量不为0的单个food食物添加到保存food食物的数组中,但是这种效率不高,改成定义一个state数据，手动控制
+                        arr.push(food)
+                    }
+                })
+            });
+            return arr 
+        }
+        */
+       //计算购物车中总的数量
+        totalCount ( state ){
+            return state.cartFoods.reduce((pre,food) => pre+food.count,0)
+        },
+       //计算购物车中食物的总金额
+        totalPricce ( state ){
+            return state.cartFoods.reduce((pre,food)=> pre+food.price*food.count,0)
+       }
     }
   }
