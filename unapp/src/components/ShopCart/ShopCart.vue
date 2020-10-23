@@ -37,9 +37,10 @@
             </div>
         </div>
       </transition>
-     
     </div>
-    <div class="list-mask" v-show="listShow" @click="toggleShow"></div>
+    <transition name='fade'>
+      <div class="list-mask" v-show="listShow" @click="toggleShow"></div>
+    </transition>
   </div>
 </template>
 

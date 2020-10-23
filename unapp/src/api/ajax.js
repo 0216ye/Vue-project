@@ -34,7 +34,7 @@ myAxios.interceptors.request.use(config =>{
         //如果需要token，又没有token，则不能发送请求
         if ( needCheck ){
             // 在需要校验token的请求中，如果没有token，取消发送请求
-            throw new Error('没有token，请求失败')
+            throw new Error('没有登录，请求失败,请重新登录')
         }
     }
     return config

@@ -40,36 +40,36 @@
       <!-- 我的订单 -->
       <a href='javascript:' class="my_order">
         <span>
-          <i class="iconfont icon-order-s"></i>
+          <i class="iconfont iconicon-order"></i>
         </span>
         <div class="my_order_div">
           <span>我的订单</span>
           <span class="my_order_icon">
-            <i class="iconfont icon-jiantou1"></i>
+            <i class="iconfont icon-bulb"></i>
           </span>
         </div>
       </a>
       <!-- 积分商城 -->
       <a href="javascript:" class="my_order">
         <span>
-          <i class="iconfont icon-jifen"></i>
+          <i class="iconfont iconjifen icon-jifen"></i>
         </span>
         <div class="my_order_div">
           <span>积分商城</span>
           <span class="my_order_icon">
-            <i class="iconfont icon-jiantou1"></i>
+            <i class="iconfont icon-bulb"></i>
           </span>
         </div>
       </a>
       <!-- 硅谷外卖会员卡 -->
       <a href="javascript:" class="my_order">
         <span>
-          <i class="iconfont icon-vip"></i>
+          <i class="iconfont iconvip "></i>
         </span>
         <div class="my_order_div">
           <span>硅谷外卖会员卡</span>
           <span class="my_order_icon">
-            <i class="iconfont icon-jiantou1"></i>
+            <i class="iconfont icon-bulb"></i>
           </span>
         </div>
       </a>
@@ -78,12 +78,12 @@
       <!-- 服务中心 -->
       <a href="javascript:" class="my_order">
         <span>
-          <i class="iconfont icon-fuwu"></i>
+          <i class="iconfont iconicon-fuwu"></i>
         </span>
         <div class="my_order_div">
           <span>服务中心</span>
           <span class="my_order_icon">
-            <i class="iconfont icon-jiantou1"></i>
+            <i class="iconfont icon-bulb"></i>
           </span>
         </div>
       </a>
@@ -229,15 +229,16 @@ import { MessageBox } from "mint-ui";
         .info_data_top
           display block
           width 100%
-          font-size 14px
+          font-size 16px
           color #333
           padding 15px 5px 10px
           span
             display inline-block
-            font-size 30px
+            font-size 22px
+            margin-right 4px
             color #f90
             font-weight 700
-            line-height 30px
+            line-height 20px
         .info_data_bottom
           display inline-block
           font-size 14px
@@ -268,14 +269,14 @@ import { MessageBox } from "mint-ui";
         height 20px
         >.iconfont
           margin-left -10px
-          font-size 30px
-        .icon-order-s
+          font-size 25px
+        .iconicon-order
           color #02a774
-        .icon-jifen
+        .iconjifen
           color #ff5f3e
-        .icon-vip
+        .iconvip
           color #f90
-        .icon-fuwu
+        .iconicon-fuwu
           color #02a774
       .my_order_div
         width 100%
@@ -290,7 +291,7 @@ import { MessageBox } from "mint-ui";
         .my_order_icon
           width 10px
           height 10px
-          .icon-jiantou1
+          .icon-bulb
             color #bbb
             font-size 10px
   
