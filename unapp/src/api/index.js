@@ -31,10 +31,13 @@ export const reqPhoneVerify = ({phone,code}) => myAxios.post('login_sms',{phone,
 
 //7、自动登录
 export const reqAutoLogin = () => myAxios.get('/auto_login')
-
+/**以下接口是通过mock库mock出来的 */
 // 8、获取食物的接口
 export const reqGoods = () => myAxios('/goods')
 // 9、获取商家的信息
 export const reqInfo = () => myAxios('/info')
 // 10、获取食物评价的接口
 export const reqRatings = () => myAxios('/ratings')
+// 11、根据商家id返回对应的商家信息
+export const reqShop = (id) => myAxios('/shop/'+id)
+

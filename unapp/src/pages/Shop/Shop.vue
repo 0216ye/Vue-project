@@ -3,13 +3,13 @@
       <ShopHeader/>
       <div class='tab'>
         <div class="tab-item">
-            <router-link to="/shop/goods" replace>点餐</router-link>
+            <router-link :to="`/shop/${id}/goods`" replace>点餐</router-link>
         </div>
         <div class="tab-item">
-            <router-link to="/shop/ratings" replace>评价</router-link>
+            <router-link :to="`/shop/${id}/ratings`" replace>评价</router-link>
         </div>
         <div class="tab-item">
-            <router-link to="/shop/info" replace>商家</router-link>
+            <router-link :to="`/shop/${id}/info`" replace>商家</router-link>
         </div>
       </div>
       <router-view></router-view>
@@ -17,17 +17,32 @@
 </template>
 
 <script type="text/ecmascript-6">
+import {mapState} from 'vuex'
 import ShopHeader from '../../components/ShopHeader/ShopHeader'
+import {saveCartFoods} from '../../utils/index'
+
   export default {
       name:'Shop',
+      props:['id'],
       components:{
           ShopHeader
       },
+      computed: {
+        ...mapState({
+          shop: state => state.shop
+        })
+      },
       mounted(){
-        this.$store.dispatch('showGoods')
-        this.$store.dispatch('showRatings')
-        this.$store.dispatch('showInfo')
-      }
+        //获取路由动态参数
+        const id = this.$route.params.id
+        //获取对应ID的商家数据
+        this.$store.dispatch('getShop',id)
+      },
+      beforeDestroy() {
+        const {shop:{id},cartFoods} = this.shop  //多重解构
+        //保存当前商家的购物车信息到内存中
+        saveCartFoods(id,cartFoods)
+      },
   }
 </script>
 

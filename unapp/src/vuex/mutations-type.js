@@ -13,3 +13,5 @@ export const RECEIVE_INFO = 'receive_info'// 保存着评价的数组
 export const RECEIVE_RATINGS = 'receive_ratings' //保存着商家的信息
 export const ADD_FOOD_COUNT = 'add_food_count' //CareControl组件添加的按钮
 export const REDUCE_FOOD_COUNT = 'reduce_food_count' //CareControl组件删除的按钮
+export const CLEAR_FOOD = 'clear_food' //清除购物车中的选项
+export const RECEIVE_SHOP = 'receive_shop' //保存具体商家的信息

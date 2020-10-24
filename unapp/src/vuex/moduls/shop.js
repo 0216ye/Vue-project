@@ -3,29 +3,35 @@
  */
 import Vue from 'vue'
 import {
-    RECEIVE_GOODS,
-    RECEIVE_INFO,
-    RECEIVE_RATINGS,
     ADD_FOOD_COUNT,
-    REDUCE_FOOD_COUNT
+    REDUCE_FOOD_COUNT,
+    CLEAR_FOOD,
+    RECEIVE_SHOP
 } from '../mutations-type'
-import {reqGoods,reqInfo,reqRatings} from '../../api/index'
+import {reqShop} from '../../api/index'
+import {getCartFoods} from '../../utils/index'
 export default {
     state: {
-        goods:[],//保存着食物的数组
-        ratings:[],//保存着对应食物的评价
-        info:{},//保存着商家的信息
+        // goods:[],//保存着食物的数组
+        // ratings:[],//保存着对应食物的评价
+        // info:{},//保存着商家的信息
+        shop:{}, //保存商家的所有信息
         cartFoods:[]//保存着已经添加到购物车的food食物的数组(count不为0)
     },
     mutations: {  
-        [RECEIVE_GOODS](state,goods){
-            state.goods = goods
-        },
-        [RECEIVE_INFO](state,info){
-            state.info = info
-        },
-        [RECEIVE_RATINGS](state,ratings){
-            state.ratings = ratings
+        // [RECEIVE_GOODS](state,goods){
+        //     state.goods = goods
+        // },
+        // [RECEIVE_INFO](state,info){
+        //     state.info = info
+        // },
+        // [RECEIVE_RATINGS](state,ratings){
+        //     state.ratings = ratings
+        // },
+        [RECEIVE_SHOP](state,shop={},cartFoods=[]){
+            state.shop = shop
+            state.cartFoods = cartFoods
+            
         },
         [ADD_FOOD_COUNT](state,food){
             if ( food.count ) {
@@ -47,9 +53,16 @@ export default {
                     state.cartFoods.splice(state.cartFoods.indexOf(food),1)
                 }
             }
+        },
+        [CLEAR_FOOD](state){
+            //清空购物车，首先中所有food食物的数量改为0
+            state.cartFoods.forEach(food => food.count = 0)
+            //再者清空carFoods
+            state.cartFoods = []
         }
     },
     actions: { 
+        /*
          //7、保存食物数据的action
         async showGoods ({commit},cb){
             const result = await reqGoods()
@@ -78,6 +91,29 @@ export default {
                 typeof cb === 'function' && cb()
             }
         },
+        */
+       //保存对应具体id商家的具体信息,数据源是通过mock的接口
+        async getShop ({commit,state},id) {
+            //如果id与原来保存的商家对应id一致，则不再发送请求获取数据
+            if ( id == state.shop.id ){
+                return
+            }
+            //如果是另一家商家，清空原本购物车中的数据
+            if ( state.shop.id ){
+                commit(RECEIVE_SHOP,state.shop)
+            }
+            console.log('准备发送请求')
+
+            const result = await reqShop(id)
+            if ( result.code === 0 ){
+                const shop = result.data
+                //读取保存在seesionStorage中的数据
+                const cartFoods = getCartFoods(shop)
+                commit(RECEIVE_SHOP,shop,cartFoods)
+            }
+        },
+
+
         //更新food中的count值，
         updateFoodCount ({commit},{isAdd,food}) {
             if ( isAdd ){

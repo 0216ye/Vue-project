@@ -20,7 +20,7 @@
         <div class="shopcart-list" v-show="listShow">
             <div class="list-header">
             <h1 class="title">购物车</h1>
-            <span class="empty">清空</span>
+            <span class="empty" @click="clearFoods">清空</span>
             </div>
             <div class="list-content"  ref="food">
                 <ul>
@@ -45,8 +45,11 @@
 </template>
 
 <script type="text/ecmascript-6">
+    import {MessageBox} from 'mint-ui'
     import BScroll from 'better-scroll'
     import {mapGetters,mapState} from 'vuex'
+
+    import {CLEAR_FOOD} from '../../vuex/mutations-type'
     export default {
         name:'ShopCart',
         data () {
@@ -58,7 +61,7 @@
         computed:{
             ...mapGetters(['totalCount','totalPricce']),
             ...mapState({
-                info:state => state.shop.info,
+                info:state => state.shop.shop.info || {},
                 cartFoods: state => state.shop.cartFoods
             }),
             //计算高亮类  not-enough/enough
@@ -110,6 +113,14 @@
             toggleShow (){
                 //只有当购物车有点餐的食物时，才切换
                 if ( this.totalCount > 0  ) this.isShow = !this.isShow
+            },
+            //清空购物车
+            clearFoods (){
+              MessageBox.confirm('确定清空购物车？')
+                .then(
+                  active => {this.$store.commit(CLEAR_FOOD)},
+                  ()=>{}
+                )
             }
         }
     };

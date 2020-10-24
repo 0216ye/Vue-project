@@ -73,7 +73,7 @@
     },
     computed:{ 
       ...mapState({
-        goods: state => state.shop.goods,
+        goods: state => state.shop.shop.goods,
       }),
       currentIndex(){
         const {scrollY,tops} = this
@@ -95,24 +95,32 @@
     methods:{
       //初始化better-scorll对象
       _initScroll(){
-       //左侧的scroll滑动对象
-       this.leftScroll = new BScroll(this.$refs.menuWrapper,{})
-       //右侧的scroll滑动对象
-       this.rightScroll = new BScroll(this.$refs.foodsWrapper,{
-         probeType:1 // probeType 为 1 的时候，会非实时（屏幕滑动超过一定时间后）派发scroll 事件
-       })
+        if ( !this.leftScroll ){
+          console.log('创建对象')
+          //左侧的scroll滑动对象
+          this.leftScroll = new BScroll(this.$refs.menuWrapper,{})
+          //右侧的scroll滑动对象
+          this.rightScroll = new BScroll(this.$refs.foodsWrapper,{
+            probeType:1 // probeType 为 1 的时候，会非实时（屏幕滑动超过一定时间后）派发scroll 事件
+          })
 
-       //给右侧的scroll对象绑定监听函数
-       this.rightScroll.on('scroll',({x,y}) => {
-         console.log('scroll',x,y)
-         //将获取到的Y轴的值取绝对值后赋给scrollY
-         this.scrollY = Math.abs(y)
-       })
+          //给右侧的scroll对象绑定监听函数
+          this.rightScroll.on('scroll',({x,y}) => {
+            console.log('scroll',x,y)
+            //将获取到的Y轴的值取绝对值后赋给scrollY
+            this.scrollY = Math.abs(y)
+          })
 
-       this.rightScroll.on('scrollEnd',({x,y}) => {
-         console.log('scroll',x,y)
-         this.scrollY = Math.abs(y)
-       })
+          this.rightScroll.on('scrollEnd',({x,y}) => {
+            console.log('scroll',x,y)
+            this.scrollY = Math.abs(y)
+          })
+        }else{
+          this.leftScroll.refresh()
+          this.rightScroll.refresh()
+        }
+
+       
      },
      //统计右侧所有分类li的高度组成的tops数组
       _initTops(){
@@ -145,7 +153,15 @@
         //通过ref获取到标签对象(也是组件对象),调用他的方法
         this.$refs.food.toggleShow()
       }
-    
+    },
+    mounted (){
+      //如果Goods已经有数据了，则直接将BScorrl初始化
+      if ( this.goods ){
+        if (this.goods.length > 0 ){
+          this._initTops()
+          this._initScroll()
+        }
+      }
     },
     watch:{
       goods(){ //goods数据有了

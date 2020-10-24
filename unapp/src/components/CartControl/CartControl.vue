@@ -19,11 +19,12 @@
       methods:{
         //使用了lodash的throttle方法进行了节流
         updateFoodCount:throttle(function( isAdd ){
+          console.log('------')
             //1。当前组件不是food所在的组件-->数据在哪里就在那里更新
             //2。count开始值是undefined
             //通过vuex更新food中的count值
             this.$store.dispatch('updateFoodCount',{isAdd,food:this.food})
-        },800)
+        },500,{trailing:false})
       }
   }
 </script>

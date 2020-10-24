@@ -55,24 +55,25 @@ export default new VueRouter({
             component:Login
         },
         {
-            path:'/shop',
+            path:'/shop/:id',
+            props:true ,//将params动态路由参数当成组件属性标签传递
             component:Shop,
             children:[
                 {
-                    path:'/shop/goods',
+                    path:'goods',
                     component:Goods
                 },
                 {
-                    path:'/shop/ratings',
+                    path:'ratings',
                     component:Ratings
                 },
                 {
-                    path:'/shop/info',
+                    path:'info',
                     component:Info
                 },
                 {
                     path:'',
-                    redirect:'/shop/goods'
+                    redirect:'/shop/:id/goods'
                 },
             ]
         },
