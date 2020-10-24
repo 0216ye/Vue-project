@@ -6,7 +6,7 @@ import Vue from 'vue'
 export function saveCartFoods (shopId,cartFoods){
     //reduce用于累加累计，可以用于数组/对象/数值
     const cartCounts = cartFoods.reduce((pre,food) => {
-        //向pre中添加属性
+        //向pre中添加属性:食物的id:食物的数量
         pre[food.id] = food.count
         return pre
     },{})
@@ -29,9 +29,10 @@ export function getCartFoods (shop){
             if ( count > 0 ) {
                 //添加响应式属性
                 Vue.set(food,'count',count)
+                //将有count的food食物对象添加到购物车数组中
                 cartFoods.push(food)
             }
         })
     })
-    return cartCounts
+    return cartFoods
 }

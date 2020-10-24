@@ -28,7 +28,7 @@ export default {
         // [RECEIVE_RATINGS](state,ratings){
         //     state.ratings = ratings
         // },
-        [RECEIVE_SHOP](state,shop={},cartFoods=[]){
+        [RECEIVE_SHOP](state,{shop={},cartFoods=[]}){
             state.shop = shop
             state.cartFoods = cartFoods
             
@@ -100,16 +100,16 @@ export default {
             }
             //如果是另一家商家，清空原本购物车中的数据
             if ( state.shop.id ){
-                commit(RECEIVE_SHOP,state.shop)
+                commit(RECEIVE_SHOP,{shop:state.shop})
             }
             console.log('准备发送请求')
 
             const result = await reqShop(id)
             if ( result.code === 0 ){
                 const shop = result.data
-                //读取保存在seesionStorage中的数据
+                //读取当前商家购物车的数据,从sessionStorage中读取
                 const cartFoods = getCartFoods(shop)
-                commit(RECEIVE_SHOP,shop,cartFoods)
+                commit(RECEIVE_SHOP,{shop,cartFoods})
             }
         },
 

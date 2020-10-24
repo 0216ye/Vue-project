@@ -40,7 +40,7 @@ import {saveCartFoods} from '../../utils/index'
       },
       beforeDestroy() {
         const {shop:{id},cartFoods} = this.shop  //多重解构
-        //保存当前商家的购物车信息到内存中
+        //保存当前商家的购物车信息sessionStroage中
         saveCartFoods(id,cartFoods)
       },
   }
