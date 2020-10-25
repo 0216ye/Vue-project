@@ -1,6 +1,9 @@
 <template>
   <div>
-    <router-view ></router-view>
+    <!--将非当前的组件缓存起来，而不是销毁它，优化性能 -->
+    <keep-alive>
+       <router-view ></router-view>
+    </keep-alive>
     <FooterNav v-show="$route.meta.isFooterShow"></FooterNav>
   </div>
 </template>

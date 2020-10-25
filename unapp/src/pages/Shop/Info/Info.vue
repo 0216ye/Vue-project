@@ -30,7 +30,7 @@
       <section class="section">
         <h3 class="section-title">商家实景</h3>
         <div class="pic-wrapper" ref="picWrapper">
-          <ul class="pic-list">
+          <ul class="pic-list" ref="picList">
             <li class="pic-item" v-for="(pic,index) in info.pics" :key="index">
               <img width="120"  height="90" :src="pic" />
             </li>
@@ -70,6 +70,11 @@
     methods: {
       _initBScorll (){
         this.infoBSroll =  new BScroll(this.$refs.shopInfo)
+        //动态的计算ul的宽度
+        let width1 = this.$refs.picList.children[0].clientWidth
+        let count = this.$refs.picList.children.length
+        let space = 6
+        this.$refs.picList.style.width= ( width1 + 6)*count - space +'px'
         new BScroll(this.$refs.picWrapper,{
           scrollX:true
         })
@@ -173,7 +178,6 @@
         white-space: nowrap
         margin-top 16px
         .pic-list
-          width 620px
           font-size: 0
           .pic-item
             display: inline-block

@@ -1,11 +1,29 @@
 /**路由器模块*/
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+/*
 import Home from '../pages/Home/Home.vue'
 import Search from '../pages/Search/Search.vue'
 import Profile from '../pages/Profile/Profile.vue'
 import Order from '../pages/Order/Order.vue'
-import FooterNav from '../components/FooterNav/FooterNav.vue'
+*/
+/*路由组件懒加载
+1).在打包时路由组件会被单独打包(代码分割: code split)
+路由组件懒加载:
+1).在打包时路由组件会被单独打包(代码分割: code split)
+2).默认不请求加载路由组件打包文件，当请求需要路由组件时才请求加载
+1. import动态引入:
+import (模块路径)
+结果:被引入的模块会被单独打包(代码分割: code split)
+2.配置的路由组件是函数(返回动态加载的路由组件模块)
+函数开始是不执行(开始不请求加载单独打包的路由组件模块代码)
+当请求对应路径需要显示组件界面时，去加载路由组件打包文件
+作用:减小首屏需要加载的js文件==>显示更快
+*/
+const Home = () => import('../pages/Home/Home.vue')
+const Search = () => import('../pages/Search/Search.vue')
+const Profile = () => import('../pages/Profile/Profile.vue')
+const Order = () => import('../pages/Order/Order.vue')
 import Login from '../pages/Login/Login.vue'
 import Shop from '../pages/Shop/Shop.vue'
 import Goods from '../pages/Shop/Goods/Goods.vue'
