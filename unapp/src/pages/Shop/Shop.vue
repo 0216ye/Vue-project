@@ -37,7 +37,14 @@ import {saveCartFoods} from '../../utils/index'
         const id = this.$route.params.id
         //获取对应ID的商家数据
         this.$store.dispatch('getShop',id)
+        //当页面刷新时，执行,将购物车数据重新保存起来
+        window.addEventListener('unload',() => {
+          const {shop:{id},cartFoods} = this.shop  //多重解构
+          //保存当前商家的购物车信息sessionStroage中
+          saveCartFoods(id,cartFoods)
+        })
       },
+      //页面刷新时，不会调用
       beforeDestroy() {
         const {shop:{id},cartFoods} = this.shop  //多重解构
         //保存当前商家的购物车信息sessionStroage中

@@ -16,7 +16,8 @@ import './mock/mock-serve'
 import './validate.js'
 //引入用于国际化的文件
 import i18n from './i18n'
-
+//引入时间的自定义过滤器函数
+import './filters/index'
 import loading from './common/images/loading.gif'
 //声明使用懒加载的插件,会得到一个全局指令:lazy,并指定其图片,
 Vue.use(VueLazyload, {

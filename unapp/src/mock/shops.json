@@ -1225,7 +1225,7 @@
         "deliveryTime": 10,
         "score": 4,
         "rateType": 0,
-        "text": "",
+        "text": "很好吃",
         "avatar": "http://static.galileo.xiaojukeji.com/static/tms/default_header.png",
         "recommend": []
       },
@@ -1265,7 +1265,7 @@
         "deliveryTime": "",
         "score": 3,
         "rateType": 1,
-        "text": "",
+        "text": "东西很一般，不好吃，不会再来了",
         "avatar": "http://static.galileo.xiaojukeji.com/static/tms/default_header.png",
         "recommend": []
       },
@@ -1297,7 +1297,7 @@
         "deliveryTime": "",
         "score": 3,
         "rateType": 1,
-        "text": "",
+        "text": "很贵，还不好吃！",
         "avatar": "http://static.galileo.xiaojukeji.com/static/tms/default_header.png",
         "recommend": []
       },

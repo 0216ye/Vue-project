@@ -149,6 +149,24 @@ export default {
        //计算购物车中食物的总金额
         totalPricce ( state ){
             return state.cartFoods.reduce((pre,food)=> pre+food.price*food.count,0)
+       },
+       //计算满意&不满意&全部的数量值
+       getType ( state ) {
+            let satisfy = 0
+            let yawp = 0
+            let all = 0
+            const arrRateType =  state.shop.ratings.reduce((pre,rating) => {
+                if ( rating.rateType == 0 ){
+                    satisfy++
+                    pre['satisfy'] = satisfy
+                } else if( rating.rateType == 1 ) {
+                    yawp++
+                    pre['yawp'] = yawp
+                }
+                return pre
+            },{})
+            arrRateType['all'] =  state.shop.ratings.length
+            return arrRateType
        }
     }
   }
