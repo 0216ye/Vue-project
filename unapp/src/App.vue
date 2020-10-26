@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--将非当前的组件缓存起来，而不是销毁它，优化性能 -->
-    <keep-alive>
+    <keep-alive exclude="Shop"> <!--排除了shop组件-->
        <router-view ></router-view>
     </keep-alive>
     <FooterNav v-show="$route.meta.isFooterShow"></FooterNav>

@@ -99,6 +99,21 @@ import {reqPhoneText,reqUSerPwd,reqPhoneVerify } from '../../api/index'
         return /^1[3-9]\d{9}$/.test(this.phone)
       }
     },
+    //路由导航守卫-->组件守卫，对路由的跳转进行监视和控制
+    beforeRouteEnter (to, from, next) {
+      next( com => {
+        //获取校验是否登录的token
+        const token = com.$store.state.user.token
+        //已经登录，自动跳转到个人中心页面
+        if ( token ) {
+          Toast('当前为登录状态中!')
+          return next('/profile')
+        }
+        //还没登录，放行,进入登录界面
+        else next() 
+      })
+    },
+  
     methods:{
       //取消获取验证码的from默认跳转
     async sendCode(){

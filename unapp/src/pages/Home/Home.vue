@@ -3,11 +3,11 @@
     <!--首页头部-->
     <Header :text='address.name|| "定位中..."'>
       <!--使用了插槽-->
-      <span class="header_search" slot="left">
+      <span class="header_search" slot="left" @click="$router.replace('/search')">
         <i class="iconfont  iconicon-sousuo"></i>
       </span>
       <span class="header_login" slot = "right">
-      <span class="header_login_text">登录|注册</span>
+      <span class="header_login_text" @click="$router.replace('/login')">登录|注册</span>
       </span>
     </Header>    
     <!--首页导航-->
@@ -204,7 +204,7 @@ export default {
       //   })
       // },10)
     }
-  }
+  },
 };
 </script>
 
