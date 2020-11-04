@@ -96,7 +96,6 @@
       //初始化better-scorll对象
       _initScroll(){
         if ( !this.leftScroll ){
-          console.log('创建对象')
           //左侧的scroll滑动对象
           this.leftScroll = new BScroll(this.$refs.menuWrapper,{})
           //右侧的scroll滑动对象
@@ -106,13 +105,11 @@
 
           //给右侧的scroll对象绑定监听函数
           this.rightScroll.on('scroll',({x,y}) => {
-            console.log('scroll',x,y)
             //将获取到的Y轴的值取绝对值后赋给scrollY
             this.scrollY = Math.abs(y)
           })
 
           this.rightScroll.on('scrollEnd',({x,y}) => {
-            console.log('scroll',x,y)
             this.scrollY = Math.abs(y)
           })
         }else{

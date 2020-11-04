@@ -64,7 +64,6 @@ myAxios.interceptors.response.use(
                 const path = router.currentRoute.path
                 //验证token失败，清除LocalStorage和store的信息，跳转到登录页面
                 if ( path !=='/login'){
-                    console.log('--1')
                     store.dispatch('loginOut')
                     router.replace('/login')
                     Toast(error.response.data.message || '登录信息失效，请重新登录')
@@ -73,7 +72,6 @@ myAxios.interceptors.response.use(
                 //404提示
                 MessageBox('提示','请求资源不存在')
             }else{
-                console.log('----')
                 MessageBox('提示', error.message)
             }
         }
